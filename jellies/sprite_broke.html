@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Broke Jellyfish — Tiny Pixel “NO MONEY”</title>
+<style>
+  :root { --cell: 4px; --gap: 1px; } /* tiny 4×5 letters */
+
+  body {
+    margin: 0; background: #111; height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    image-rendering: pixelated; gap: 8px;
+  }
+
+  /* ===== Tiny pixel text (each letter = 4×5 grid) ===== */
+  .word { display: flex; align-items: center; gap: 5px; }
+  .letter {
+    display: grid; gap: var(--gap);
+    grid-template-columns: repeat(4, var(--cell));
+    grid-template-rows: repeat(5, var(--cell));
+    animation: blink 0.9s steps(1) infinite;
+  }
+  .px  { width: var(--cell); height: var(--cell); background: transparent; }
+  .on  { background: #ff3b30; } /* red */
+
+  @keyframes blink { 50% { opacity: 0.25; } }
+
+  /* ===== Jelly (your weakened look) ===== */
+  .grid {
+    display: grid; gap: 1px;
+    grid-template-columns: repeat(5, 10px);
+    grid-template-rows: repeat(6, 10px);
+  }
+  .pixel { width: 10px; height: 10px; background: transparent; }
+  .body { background: #888; transition: background .2s steps(1); }
+  .tentacle { background: #666; transition: background .2s steps(1); }
+</style>
+</head>
+<body>
+
+  <!-- ===== Tiny “NO MONEY” in 4×5 pixels ===== -->
+  <div class="word" aria-label="NO MONEY">
+    <!-- N -->
+    <div class="letter">
+      <!-- r0 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r1 --> <div class="on"></div><div class="on"></div><div class="px"></div><div class="on"></div>
+      <!-- r2 --> <div class="on"></div><div class="px"></div><div class="on"></div><div class="on"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r4 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+    </div>
+
+    <!-- O -->
+    <div class="letter">
+      <!-- r0 --> <div class="px"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+      <!-- r1 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r2 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r4 --> <div class="px"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+    </div>
+
+    <!-- (tiny space) -->
+    <div style="width: 4px;"></div>
+
+    <!-- M -->
+    <div class="letter">
+      <!-- r0 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r1 --> <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+      <!-- r2 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r4 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+    </div>
+
+    <!-- O -->
+    <div class="letter">
+      <!-- r0 --> <div class="px"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+      <!-- r1 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r2 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r4 --> <div class="px"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+    </div>
+
+    <!-- N -->
+    <div class="letter">
+      <!-- r0 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r1 --> <div class="on"></div><div class="on"></div><div class="px"></div><div class="on"></div>
+      <!-- r2 --> <div class="on"></div><div class="px"></div><div class="on"></div><div class="on"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r4 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+    </div>
+
+    <!-- E -->
+    <div class="letter">
+      <!-- r0 --> <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+      <!-- r1 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- r2 --> <div class="on"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+      <!-- r3 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      <!-- r4 --> <div class="on"></div><div class="on"></div><div class="on"></div><div class="on"></div>
+    </div>
+
+    <!-- Y -->
+    <div class="letter">
+      <!-- r0 --> <div class="on"></div><div class="px"></div><div class="px"></div><div class="on"></div>
+      <!-- r1 --> <div class="px"></div><div class="on"></div><div class="on"></div><div class="px"></div>
+      <!-- r2 --> <div class="px"></div><div class="px"></div><div class="on"></div><div class="px"></div>
+      <!-- r3 --> <div class="px"></div><div class="px"></div><div class="on"></div><div class="px"></div>
+      <!-- r4 --> <div class="px"></div><div class="px"></div><div class="on"></div><div class="px"></div>
+    </div>
+  </div>
+
+  <!-- ===== Jellyfish (unchanged) ===== -->
+  <div class="grid" id="jellyfish">
+    <!-- Row 1 -->
+    <div class="pixel"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="pixel"></div>
+    <!-- Row 2 -->
+    <div class="body"></div><div class="pixel"></div><div class="body"></div><div class="pixel"></div><div class="body"></div>
+    <!-- Row 3 -->
+    <div class="body"></div><div class="body"></div><div class="pixel"></div><div class="body"></div><div class="body"></div>
+    <!-- Row 4 -->
+    <div class="body"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="body"></div>
+    <!-- Row 5 -->
+    <div class="tentacle"></div><div class="pixel"></div><div class="tentacle"></div><div class="pixel"></div><div class="tentacle"></div>
+    <!-- Row 6 -->
+    <div class="tentacle"></div><div class="pixel"></div><div class="pixel"></div><div class="pixel"></div><div class="tentacle"></div>
+  </div>
+
+<script>
+  /* keep the weak jelly animation from before */
+  const tentacles = document.querySelectorAll(".tentacle");
+  const bodyPixels = document.querySelectorAll(".body");
+
+  let toggleTentacles = false;
+  setInterval(() => {
+    tentacles.forEach((t, i) => {
+      t.style.background = (i + toggleTentacles) % 2 === 0 ? "#666" : "transparent";
+    });
+    toggleTentacles = !toggleTentacles;
+  }, 1000);
+
+  setInterval(() => {
+    bodyPixels.forEach(b => {
+      b.style.background = Math.random() > 0.9 ? "#444" : "#888";
+    });
+  }, 600);
+</script>
+</body>
+</html>

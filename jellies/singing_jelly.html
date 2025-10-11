@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Jelly — Singing (Unified)</title>
+<style>
+  :root{ --cell:12px; --gap:2px; --bg:#111; }
+  body{ margin:0; background:var(--bg); height:100vh; display:grid; place-items:center; image-rendering:pixelated; }
+  .scene{ display:flex; align-items:center; gap:10px; }
+
+  .jelly{
+    display:grid; gap:var(--gap);
+    grid-template-columns:repeat(5,var(--cell));
+    grid-template-rows:repeat(6,var(--cell));
+  }
+  .px{ width:var(--cell); height:var(--cell); background:transparent; }
+  .body{ background:#66ccff; transition:background .2s steps(1); }
+  .tent{ background:#3399ff; transition:background .2s steps(1); }
+  .mouth{ background:#66ccff; }
+
+  .waves{
+    display:grid; gap:var(--gap);
+    grid-template-columns:repeat(3,var(--cell));
+    grid-template-rows:repeat(7,var(--cell));
+  }
+  .wavepx{ width:var(--cell); height:var(--cell); background:transparent; }
+  .on{ background:#ffff66; }
+</style>
+</head>
+<body>
+  <div class="scene">
+    <div class="jelly" id="jelly">
+      <div class="px"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="px"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="mouth" id="mouth"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div>
+      <div class="tent"></div><div class="px"></div><div class="tent"></div><div class="px"></div><div class="tent"></div>
+    </div>
+
+    <div class="waves" id="waves">
+      <!-- 3 × 7 slots (static, no template literal) -->
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+      <div class="wavepx"></div><div class="wavepx"></div><div class="wavepx"></div>
+    </div>
+  </div>
+
+<script>
+  const W=3,H=7, BASE_COL=0, EDGE_COL=1, mouthRow=2;
+  const waves = Array.from(document.querySelectorAll('.waves .wavepx'));
+  const mouth = document.getElementById('mouth');
+  const idx=(r,c)=>r*W+c;
+
+  function frameForLength(L){
+    const rows=[];
+    if (L%2===1){
+      const r0=Math.floor(L/2);
+      for(let dy=-r0; dy<=r0; dy++){
+        const r=mouthRow+dy; if(r<0||r>=H) continue;
+        const isEdge=(Math.abs(dy)===r0) && L>1;
+        rows.push([r, isEdge?EDGE_COL:BASE_COL]);
+      }
+    } else {
+      const r0=L/2;
+      for(let dy=-r0; dy<r0; dy++){
+        const r=mouthRow+dy; if(r<0||r>=H) continue;
+        const isEdge=(dy===-r0 || dy===(r0-1));
+        rows.push([r, isEdge?EDGE_COL:BASE_COL]);
+      }
+    }
+    return rows;
+  }
+  const lengths=[1,2,3,4,5,6];
+  const frames=lengths.map(frameForLength);
+
+  const tent = document.querySelectorAll('.tent');
+  let tentToggle=false, step=0;
+
+  setInterval(()=>{
+    waves.forEach(p=> p.classList.remove('on'));
+    mouth.style.background = (step%2===0)? 'transparent' : '#66ccff';
+    frames[step].forEach(([r,c])=>{
+      const i=idx(r,c); if(i>=0 && i<waves.length) waves[i].classList.add('on');
+    });
+
+    tent.forEach((t,i)=>{
+      t.style.background = ((i + (tentToggle?1:0)) % 2 === 0) ? '#3399ff' : 'transparent';
+    });
+    tentToggle=!tentToggle;
+
+    step=(step+1)%frames.length;
+  }, 420);
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Jelly — Mining (Unified)</title>
+<style>
+  :root{
+    --cell:12px; --gap:2px; --bg:#111;
+    --body:#66ccff; --tent:#3399ff;
+    --ore:#7f8c8d; --ore2:#95a5a6;
+    --axe:#bfbfbf; --wood:#8c5f3d; --spark:#ffd166;
+  }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--bg); height:100vh; display:grid; place-items:center; image-rendering:pixelated; font-family:system-ui,sans-serif; }
+  .scene{ display:flex; align-items:center; gap:18px; }
+  .grid{ display:grid; gap:var(--gap); }
+  .px{ width:var(--cell); height:var(--cell); background:transparent; }
+
+  .jelly{ grid-template-columns:repeat(5,var(--cell)); grid-template-rows:repeat(6,var(--cell)); }
+  .body{ background:var(--body); transition:background .2s steps(1); }
+  .tent{ background:var(--tent); transition:background .2s steps(1); }
+
+  .workbench{ display:flex; align-items:center; gap:12px; }
+  .axe{ grid-template-columns:repeat(7,var(--cell)); grid-template-rows:repeat(7,var(--cell)); }
+  .metal{ background:var(--axe); }
+  .wood{ background:var(--wood); }
+
+  .ore{ grid-template-columns:repeat(6,var(--cell)); grid-template-rows:repeat(6,var(--cell)); }
+  .stone{ background:var(--ore); } .stone2{ background:var(--ore2); }
+  .gone{ background:transparent !important; }
+
+  .debris{ position:relative; }
+  .bits{
+    position:absolute; inset:0; display:grid; gap:var(--gap);
+    grid-template-columns:repeat(6,var(--cell)); grid-template-rows:repeat(6,var(--cell));
+    pointer-events:none;
+  }
+  .bit{ background:transparent; } .on{ background:var(--spark); }
+</style>
+</head>
+<body>
+  <div class="scene">
+    <div class="grid jelly" id="jelly">
+      <div class="px"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="px"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div>
+      <div class="tent"></div><div class="px"></div><div class="tent"></div><div class="px"></div><div class="tent"></div>
+    </div>
+
+    <div class="workbench">
+      <!-- Pickaxe frames -->
+      <div class="grid axe" id="axeF0">
+        <!-- raised -->
+        <div class="px"></div><div class="px"></div><div class="metal"></div><div class="metal"></div><div class="metal"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="metal"></div><div class="metal"></div><div class="metal"></div><div class="metal"></div><div class="metal"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+      </div>
+
+      <div class="grid axe" id="axeF1" style="display:none">
+        <!-- mid -->
+        <div class="px"></div><div class="px"></div><div class="metal"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="metal"></div><div class="metal"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div>
+      </div>
+
+      <div class="grid axe" id="axeF2" style="display:none">
+        <!-- impact -->
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="metal"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="metal"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="wood"></div><div class="px"></div>
+        <div class="px"></div><div class="px"></div><div class="px"></div><div class="px"></div><div class="wood"></div><div class="px"></div><div class="px"></div>
+      </div>
+
+      <div class="debris">
+        <div class="grid ore" id="ore">
+          <!-- checker -->
+          <!-- Row 0 --><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div>
+          <!-- Row 1 --><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div>
+          <!-- Row 2 --><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div>
+          <!-- Row 3 --><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div>
+          <!-- Row 4 --><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div>
+          <!-- Row 5 --><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div><div class="stone2"></div><div class="stone"></div>
+        </div>
+        <div class="bits" id="bits">
+          <!-- 6×6 transparent bits (static, no template literal) -->
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+          <div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div><div class="bit"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // unify tentacle tempo
+  const tent = document.querySelectorAll('.tent');
+  let tgl=false;
+  setInterval(()=> {
+    tent.forEach((t,i)=> t.style.background = ((i + (tgl?1:0)) % 2 === 0) ? 'var(--tent)' : 'transparent');
+    tgl=!tgl;
+  }, 450);
+
+  const axeFrames=[document.getElementById('axeF0'),document.getElementById('axeF1'),document.getElementById('axeF2')];
+  const swing=[0,1,2,1];
+
+  const bits=Array.from(document.querySelectorAll('#bits .bit'));
+  const oreTiles=Array.from(document.querySelectorAll('#ore > div'));
+  const BW=6,BH=6;
+  const bidx=(r,c)=>r*BW+c, tIdx=(r,c)=>r*BW+c;
+
+  const debrisFrames=[
+    [ bidx(2,0), bidx(3,1) ],
+    [ bidx(1,0), bidx(2,1), bidx(3,2) ],
+    [ bidx(0,0), bidx(1,1), bidx(2,2), bidx(3,3) ],
+    [ bidx(0,1), bidx(1,2), bidx(2,3) ],
+    [ bidx(0,2) ]
+  ];
+
+  const erosion=[];
+  for(let c=0;c<BW;c++){ for(let r=0;r<BH;r++){ erosion.push(tIdx(r,c)); } }
+  let ePtr=0;
+
+  function clearBits(){ bits.forEach(b=> b.classList.remove('on')); }
+  function popBits(step){ clearBits(); (debrisFrames[step]||[]).forEach(i=> bits[i]?.classList.add('on')); }
+  function erode(n=3){
+    let removed=0;
+    while(removed<n && ePtr<erosion.length){
+      const k=erosion[ePtr++], tile=oreTiles[k]; if(!tile) break;
+      tile.classList.add('gone'); removed++;
+    }
+    if(ePtr>=erosion.length){ setTimeout(respawn, 400); }
+  }
+  function respawn(){
+    oreTiles.forEach((tile,i)=>{
+      tile.className='';
+      const r=Math.floor(i/BW), c=i%BW;
+      tile.classList.add(((r+c)%2===0)?'stone':'stone2');
+    });
+    ePtr=0; clearBits();
+  }
+
+  let f=0;
+  setInterval(()=>{
+    const idx=f % swing.length;
+    axeFrames.forEach((el,i)=> el.style.display = (swing[idx]===i)?'grid':'none');
+    const impact=(swing[idx]===2);
+    if(impact){
+      popBits(Math.floor(f)%debrisFrames.length);
+      erode(3);
+    } else { clearBits(); }
+    f++;
+  }, 180);
+</script>
+</body>
+</html>

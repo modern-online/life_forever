@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Jelly — Power Outage (Unified, fixed overlay)</title>
+<style>
+  :root{
+    --cell:12px; --gap:2px;
+    --bg:#0b0b0c;        /* single source of truth for background */
+    --lit:#f8e38a; --wire:#444;
+    --body:#66ccff; --tent:#3399ff;
+  }
+  *{box-sizing:border-box}
+  html,body{ height:100%; }
+  body{
+    margin:0; background:var(--bg);
+    min-height:100%; display:grid; place-items:center;
+    image-rendering:pixelated;
+  }
+
+  .room{ position:relative; padding-top:10px; }
+
+  /* FULLSCREEN overlay instead of .room-bounded rectangle */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.78); /* darken uniformly */
+    opacity:0; pointer-events:none; transition:opacity .2s linear;
+  }
+
+  /* Ceiling wire + bulb (3×4), centered above jelly */
+  .bulb{
+    position:absolute; left:50%; transform:translateX(-50%);
+    top:0;
+    display:grid; gap:var(--gap);
+    grid-template-columns:repeat(3,var(--cell));
+    grid-template-rows:repeat(4,var(--cell));
+  }
+  .px{ width:var(--cell); height:var(--cell); background:transparent; }
+  .wire{ background:var(--wire); }
+  .glass{ background:transparent; }
+  .glass.on{ background:var(--lit); }
+
+  /* Jelly (5×6) */
+  .jelly{
+    margin-top:calc(4*var(--cell) + 3*var(--gap) + 6px);
+    display:grid; gap:var(--gap);
+    grid-template-columns:repeat(5,var(--cell));
+    grid-template-rows:repeat(6,var(--cell));
+  }
+  .body{ background:var(--body); transition:background .15s steps(1); }
+  .tent{ background:var(--tent); transition:background .15s steps(1); }
+  .dim{ background:#2a3a46 !important; } /* dimmed jelly when power off */
+</style>
+</head>
+<body>
+  <div class="room" id="room">
+    <!-- Hanging bulb -->
+    <div class="bulb" id="bulb">
+      <!-- Row 0 --> <div class="wire"></div><div class="wire"></div><div class="wire"></div>
+      <!-- Row 1 --> <div class="px"></div><div class="wire"></div><div class="px"></div>
+      <!-- Row 2 --> <div class="glass"></div><div class="glass"></div><div class="glass"></div>
+      <!-- Row 3 --> <div class="px"></div><div class="glass"></div><div class="px"></div>
+    </div>
+
+    <!-- Jelly -->
+    <div class="jelly" id="jelly">
+      <div class="px"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="px"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+      <div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div>
+      <div class="tent"></div><div class="px"></div><div class="tent"></div><div class="px"></div><div class="tent"></div>
+    </div>
+  </div>
+
+  <!-- Fullscreen darkness overlay -->
+  <div class="overlay" id="overlay"></div>
+
+<script>
+  // unified tentacle sway
+  const tent = document.querySelectorAll('.tent');
+  let sway=false;
+  setInterval(()=> {
+    tent.forEach((t,i)=> t.style.background = ((i + (sway?1:0)) % 2 === 0) ? 'var(--tent)' : 'transparent');
+    sway = !sway;
+  }, 450);
+
+  const glass = document.querySelectorAll('.glass');
+  const overlay = document.getElementById('overlay');
+  const bodyPx = document.querySelectorAll('.body');
+
+  // flicker → blackout → wait → power returns → loop
+  const cycle = [
+    {on:true,  t:180}, {on:false,t:90},
+    {on:true,  t:120}, {on:false,t:120},
+    {on:true,  t:240}, {on:false,t:1200}, // blackout
+    {on:true,  t:3000}                     // lights on
+  ];
+  let step=0, left=cycle[0].t;
+
+  function setLight(on){
+    glass.forEach(g=> g.classList.toggle('on', on));
+    overlay.style.opacity = on ? 0 : 1;              // 0 = invisible, 1 = dark
+    bodyPx.forEach(b=> b.classList.toggle('dim', !on));
+  }
+
+  setLight(cycle[0].on);
+  setInterval(()=>{
+    left -= 60;
+    if (left<=0){
+      step = (step+1) % cycle.length;
+      setLight(cycle[step].on);
+      left = cycle[step].t;
+    }
+  }, 60);
+</script>
+</body>
+</html>

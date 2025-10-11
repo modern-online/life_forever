@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Jelly — Base (Unified)</title>
+<style>
+  :root{ --cell:12px; --gap:2px; --bg:#111; --body:#66ccff; --tent:#3399ff; }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--bg); height:100vh; display:grid; place-items:center; image-rendering:pixelated; }
+  .jelly{
+    display:grid; gap:var(--gap);
+    grid-template-columns:repeat(5,var(--cell));
+    grid-template-rows:repeat(6,var(--cell));
+  }
+  .px{ width:var(--cell); height:var(--cell); background:transparent; }
+  .body{ background:var(--body); transition:background .2s steps(1); }
+  .tent{ background:var(--tent); transition:background .2s steps(1); }
+</style>
+</head>
+<body>
+  <div class="jelly" id="jelly">
+    <!-- Row 0 -->
+    <div class="px"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="px"></div>
+    <!-- Row 1 -->
+    <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+    <!-- Row 2 -->
+    <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+    <!-- Row 3 -->
+    <div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div><div class="body"></div>
+    <!-- Row 4 -->
+    <div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div><div class="tent"></div>
+    <!-- Row 5 -->
+    <div class="tent"></div><div class="px"></div><div class="tent"></div><div class="px"></div><div class="tent"></div>
+  </div>
+
+<script>
+  // unified tentacle sway @ 450ms
+  const tent = document.querySelectorAll('.tent');
+  let toggle = false;
+  setInterval(()=>{
+    tent.forEach((t,i)=>{
+      t.style.background = ((i + (toggle?1:0)) % 2 === 0) ? 'var(--tent)' : 'transparent';
+    });
+    toggle = !toggle;
+  }, 450);
+</script>
+</body>
+</html>

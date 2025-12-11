@@ -44,7 +44,7 @@ INACTIVITY_MS = 90000  # 90 seconds
 TEMP_MIN, TEMP_MAX   = 15, 32
 MONEY_MIN, MONEY_MAX = 0, 5
 BASE_TEMP_C          = 22
-BASE_MONEY_STEP      = 3
+BASE_MONEY_STEP      = 4
 
 DEBUG = False
 def log(*a):

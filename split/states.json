@@ -1,0 +1,92 @@
+{
+  "0": {
+    "video": "0.mkv",
+    "sprite": "base",
+    "during_words": ["Begin", "", ""],
+    "end_words": null,
+    "transitions": { "L": "1" },
+    "money_delta": 0,
+    "temp_delta": 0
+  },
+  "1": {
+    "video": "1.mkv",
+    "sprite": "base",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Pleasure", "", "Restart"],
+    "transitions": { "L": "2", "R": "RESTART" },
+    "money_delta": 0,
+    "temp_delta": 1
+  },
+  "2": {
+    "video": "2.mkv",
+    "sprite": "stinging",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Money", "Cooldown", "Restart"],
+    "transitions": { "L": "3_1_1", "C": "3_2_1", "R": "RESTART" },
+    "money_delta": 1,
+    "temp_delta": 2
+  },
+  "3_1_1": {
+    "video": "3_1_1.mkv",
+    "sprite": "mining",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Pleasure", "Cooldown", "Restart"],
+    "transitions": { "L": "4_1_1", "C": "4_1_2", "R": "RESTART" },
+    "money_delta": 2,
+    "temp_delta": -1
+  },
+  "4_1_1": {
+    "video": "4_1_1.mkv",
+    "sprite": "stinging",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Pleasure", "Cooldown", "Restart"],
+    "transitions": { "L": "5_1_1", "C": "4_1_2", "R": "RESTART" },
+    "money_delta": -1,
+    "temp_delta": 3
+  },
+  "5_1_1": {
+    "video": "5_1_1.mkv",
+    "sprite": "overheating",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["", "", "Restart"],
+    "transitions": { "R": "RESTART" },
+    "money_delta": -2,
+    "temp_delta": 6
+  },
+  "4_1_2": {
+    "video": "4_1_2.mkv",
+    "sprite": "cooling",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Sing", "", "Restart"],
+    "transitions": { "L": "6_1_1", "R": "RESTART" },
+    "money_delta": -2,
+    "temp_delta": -8
+  },
+  "6_1_1": {
+    "video": "6_1_1.mkv",
+    "sprite": "singing",
+    "during_words": ["", "", ""],
+    "end_words": ["", "", "Restart"],
+    "transitions": { "R": "RESTART" },
+    "money_delta": 0,
+    "temp_delta": -1
+  },
+  "3_2_1": {
+    "video": "3_2_1.mkv",
+    "sprite": "cooling",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["Money", "Pleasure", "Restart"],
+    "transitions": { "L": "3_1_1", "C": "4_2_1", "R": "RESTART" },
+    "money_delta": 0,
+    "temp_delta": -3
+  },
+  "4_2_1": {
+    "video": "4_2_1.mkv",
+    "sprite": "broke",
+    "during_words": ["SKIP", "", ""],
+    "end_words": ["", "", "Restart"],
+    "transitions": { "R": "RESTART" },
+    "money_delta": -3,
+    "temp_delta": -4
+  }
+}

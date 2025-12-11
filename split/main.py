@@ -259,7 +259,7 @@ def _post_video_triggers():
     Things that should happen when a video is considered 'done'
     (either natural end or skip).
     """
-    # Karaoke OFF when 6_1_1 ends or is skipped
+    
     if current_state == "6_1_1":
         osc_karaoke_off()
 
@@ -308,7 +308,6 @@ def enter_state(state_id: str):
     else:
         main_w.setStyleSheet("background-color:#000;")
         play_video(str(LOLA_DIR), s["video"])
-        # When the 6_1_1 sequence is triggered, send /karaoke 1
         if state_id == "6_1_1":
             osc_karaoke_on()
 
@@ -321,8 +320,8 @@ def on_video_end():
         return
     if phase != "playing":
         return
-    _last_video_was_skipped = False   # natural end
-    _post_video_triggers()           # same triggers as skip
+    _last_video_was_skipped = False 
+    _post_video_triggers()      
     _show_choice_labels()
 
 # =======================================================
@@ -343,8 +342,8 @@ def skip_current():
     if current_state == "0":
         return
     if phase == "playing":
-        _last_video_was_skipped = True  # drives post-action rules
-        _post_video_triggers()         # ensure "after-finish" triggers also run on skip
+        _last_video_was_skipped = True 
+        _post_video_triggers()   
         _skip_to_last_frame_and_choice()
 
 # ==================================

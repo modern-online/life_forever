@@ -62,6 +62,16 @@
 
     const style = document.createElement("style");
     style.textContent = `
+
+      @font-face {
+        font-family: "JellyHUDFont";
+        src:
+          url("./Diskus.woff2") format("woff2"),
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       :root {
         --hud-bar-height: 32px;            /* bar height */
         --hud-top-font-scale: 0.9;         /* overlay label font = scale * bar height */
@@ -72,7 +82,7 @@
       #jelly-hud {
         position: fixed; left: 12px; right: 12px; top: 10px;
         display: grid; gap: 14px; z-index: 2147483647;
-        font-family: system-ui, ui-sans-serif, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        font-family: system-ui, ui-sans-serif, Segoe UI, Roboto, Helvetica, Arial, sans-#serif;
         pointer-events: none;
       }
 

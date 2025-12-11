@@ -5,8 +5,9 @@
     "during_words": ["Begin", "", ""],
     "end_words": null,
     "transitions": { "L": "1" },
-    "money_delta": 0,
-    "temp_delta": 0
+    "money_delta": 0, 
+    "temp_delta": 0,
+    "_comment": "INTRO LOOP: Min temp :15, Max temp: 32 / Min money: 0, Max money: 5 / Current temp: 22 / Current money: 4"
   },
   "1": {
     "video": "1.mkv",
@@ -15,7 +16,8 @@
     "end_words": ["Pleasure", "", "Restart"],
     "transitions": { "L": "2", "R": "RESTART" },
     "money_delta": 0,
-    "temp_delta": 1
+    "temp_delta": 0,
+     "_comment": "WELCOME"
   },
   "2": {
     "video": "2.mkv",
@@ -23,8 +25,9 @@
     "during_words": ["SKIP", "", ""],
     "end_words": ["Money", "Cooldown", "Restart"],
     "transitions": { "L": "3_1_1", "C": "3_2_1", "R": "RESTART" },
-    "money_delta": 1,
-    "temp_delta": 2
+    "money_delta": -1,
+    "temp_delta": 2,
+    "_state tracker": "PLEASURE: Temp: 24, Money: 3"
   },
   "3_1_1": {
     "video": "3_1_1.mkv",
@@ -33,7 +36,8 @@
     "end_words": ["Pleasure", "Cooldown", "Restart"],
     "transitions": { "L": "4_1_1", "C": "4_1_2", "R": "RESTART" },
     "money_delta": 2,
-    "temp_delta": -1
+    "temp_delta": 4,
+    "_state tracker": "MAKE MONEY: Temp: 28, Money: 5"
   },
   "4_1_1": {
     "video": "4_1_1.mkv",
@@ -42,7 +46,8 @@
     "end_words": ["Pleasure", "Cooldown", "Restart"],
     "transitions": { "L": "5_1_1", "C": "4_1_2", "R": "RESTART" },
     "money_delta": -1,
-    "temp_delta": 3
+    "temp_delta": 2
+    "_state tracker": "PLEASURE: Temp: 30, Money: 4"
   },
   "5_1_1": {
     "video": "5_1_1.mkv",
@@ -51,7 +56,8 @@
     "end_words": ["", "", "Restart"],
     "transitions": { "R": "RESTART" },
     "money_delta": -2,
-    "temp_delta": 6
+    "temp_delta": 2,
+    "_state tracker": "OVERHEATING: Temp: 32, Money: 2"
   },
   "4_1_2": {
     "video": "4_1_2.mkv",
@@ -59,8 +65,9 @@
     "during_words": ["SKIP", "", ""],
     "end_words": ["Sing", "", "Restart"],
     "transitions": { "L": "6_1_1", "R": "RESTART" },
-    "money_delta": -2,
-    "temp_delta": -8
+    "money_delta": -3,
+    "temp_delta": -7
+    "_state tracker": "COOLDOWN: Temp: 21/22, Money: 2/1"
   },
   "6_1_1": {
     "video": "6_1_1.mkv",
@@ -68,8 +75,9 @@
     "during_words": ["", "", ""],
     "end_words": ["", "", "Restart"],
     "transitions": { "R": "RESTART" },
-    "money_delta": 0,
-    "temp_delta": -1
+    "money_delta": 5,
+    "temp_delta": -10,
+     "_state tracker": "SING: Temp: 15, Money: 5"
   },
   "3_2_1": {
     "video": "3_2_1.mkv",
@@ -77,8 +85,9 @@
     "during_words": ["SKIP", "", ""],
     "end_words": ["Money", "Pleasure", "Restart"],
     "transitions": { "L": "3_1_1", "C": "4_2_1", "R": "RESTART" },
-    "money_delta": 0,
-    "temp_delta": -3
+    "money_delta": -2,
+    "temp_delta": -7,
+    "_state tracker": "COOL DOWN#1: Temp: 17, Money: 1"
   },
   "4_2_1": {
     "video": "4_2_1.mkv",
@@ -86,7 +95,8 @@
     "during_words": ["SKIP", "", ""],
     "end_words": ["", "", "Restart"],
     "transitions": { "R": "RESTART" },
-    "money_delta": -3,
-    "temp_delta": -4
+    "money_delta": -1,
+    "temp_delta": 4,
+    "_state tracker": "BROKE [EARLY ENDING]: Temp: 21, Money: 0"
   }
 }
